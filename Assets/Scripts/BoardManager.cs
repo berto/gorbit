@@ -6,11 +6,12 @@ using Random = UnityEngine.Random;
 public class BoardManager : MonoBehaviour {
 
 	// boardSizes s,m,l,xl. Defaults to small
-	public string boardSize;
 	public GameObject[] asteroids;
 	public GameObject background;
+	public GameObject player;
+	public GameObject pickup;
+	private Level currentLevel;
 	private Board board;
-	private List <Vector3> gridPositions = new List <Vector3> ();
 	private float gridX;
 	private float gridY;
 	private float boardX;
@@ -31,8 +32,8 @@ public class BoardManager : MonoBehaviour {
 		}
 	}
 
-	void BoardSetup (int level) {		
-		board = new Board (boardSize);
+	void BoardSetup (string size) {
+		board = new Board (size);
 		Instantiate (background);
 		boardX = background.GetComponent<Renderer> ().bounds.size.x;
 		boardY = background.GetComponent<Renderer> ().bounds.size.y;
@@ -40,24 +41,42 @@ public class BoardManager : MonoBehaviour {
 		gridY = boardY / board.rows;
 	}
 
-	void DrawBoard () {
+	private void DrawBoard (int[][] grid) {
 		for (int x = 0; x < board.columns; x++) {
 			for (int y = 0; y < board.rows; y++) {
-				GameObject asteroid = asteroids[Random.Range (0,4)];
-				asteroid.transform.localScale = new Vector3 (1, 1, 0f);
-				float asteroidSizeX = asteroid.GetComponent<Renderer> ().bounds.size.x;
-				float asteroidSizeY = asteroid.GetComponent<Renderer> ().bounds.size.y;
-				asteroid.transform.localScale = new Vector3 (gridX/asteroidSizeX, gridY/asteroidSizeY, 0f);
-				float positionY = y * gridY - (boardY/2) + gridY/2;
-				float positionX = x * gridX - (boardX/2) + gridX/2;
-				Vector3 position = new Vector3 (positionX, positionY, 0f);
-				Instantiate (asteroid, position, Quaternion.identity);
+				int item = grid [y] [x];
+				if (item != 0) {
+					GameObject toInstantiate = selectGameObject (item);
+					float itemSizeX = toInstantiate.GetComponent<Renderer> ().bounds.size.x;
+					float itemSizeY = toInstantiate.GetComponent<Renderer> ().bounds.size.y;
+					toInstantiate.transform.localScale = new Vector3 (gridX / itemSizeX, gridY / itemSizeY, 0f);
+					float positionY = y * gridY - (boardY / 2) + gridY / 2;
+					float positionX = x * gridX - (boardX / 2) + gridX / 2;
+					Vector3 position = new Vector3 (positionX, positionY, 0f);
+					Instantiate (toInstantiate, position, Quaternion.identity);
+				}
 			}
 		}
 	}
 
+	private GameObject selectGameObject(int item) {
+		float defaultX = 1;
+		float defaultY = 1;
+		GameObject toInstantiate = asteroids [Random.Range (0, 4)];
+		if (item == 1) {
+			toInstantiate = player;
+		} else if (item == 2) {
+			toInstantiate = pickup;
+			defaultX = 2;
+			defaultY = 2;
+		}
+		toInstantiate.transform.localScale = new Vector3 (defaultX, defaultY, 0f);
+		return toInstantiate;
+	}
+
 	public void SetupScene (int level) {
-		BoardSetup (level);
-		DrawBoard ();
+		currentLevel = new Level(level);
+		BoardSetup (currentLevel.getSize());
+		DrawBoard (currentLevel.getGrid());
 	}
 }
