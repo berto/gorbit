@@ -36,17 +36,28 @@ public class GameManager: MonoBehaviour {
 		boardscript.SetupScene (level);
 	}
 
-	public void nextLevel() {
+	public void NextLevel() {
 		level++;
 		levelText.text = "Level: " + level.ToString();
 //		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
 		GameManager.instance.InitGame ();
 	}
 
+	public void PreviousLevel() {
+		level--;
+		levelText.text = "Level: " + level.ToString();
+		//		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+		GameManager.instance.InitGame ();
+	}
+
 	void OnGUI() {
 		Event e = Event.current;
 		if (e.isKey && e.keyCode == UnityEngine.KeyCode.R)
-			boardscript.Reset ();
+			Reset ();
+	}
+
+	public void Reset() {
+		boardscript.Reset ();
 	}
 	
 	// Update is called once per frame

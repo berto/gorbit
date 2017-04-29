@@ -47,7 +47,7 @@ public class BoardManager : MonoBehaviour {
 	private void DrawBoard (int[][] grid) {
 		for (int x = 0; x < board.columns; x++) {
 			for (int y = 0; y < board.rows; y++) {
-				int item = grid [y] [x];
+				int item = grid [board.rows - y - 1] [x];
 				if (item != 0) {
 					GameObject toInstantiate = selectGameObject (item);
 					float itemSizeX = toInstantiate.GetComponent<Renderer> ().bounds.size.x;
@@ -74,6 +74,8 @@ public class BoardManager : MonoBehaviour {
 		GameObject toInstantiate = asteroids [Random.Range (0, 4)];
 		if (item == 1) {
 			toInstantiate = player;
+			defaultX = 1.2f;
+			defaultY = 1.2f;
 		} else if (item == 2) {
 			toInstantiate = pickup;
 			defaultX = 2;
@@ -114,6 +116,7 @@ public class BoardManager : MonoBehaviour {
 			clearBoard ();
 		}
 		currentLevel = new Level(level);
+		print (currentLevel.getLevel());
 		BoardSetup (currentLevel.getSize());
 		DrawBoard (currentLevel.getGrid());
 	}
