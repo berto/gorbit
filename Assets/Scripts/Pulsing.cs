@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Pulsing : MonoBehaviour {
 
 	private Text text;
-	private Color colorT = Color.red;
 
 	void Update () {
 		text = gameObject.GetComponent<Text> ();

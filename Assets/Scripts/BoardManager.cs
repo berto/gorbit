@@ -116,7 +116,6 @@ public class BoardManager : MonoBehaviour {
 			clearBoard ();
 		}
 		currentLevel = new Level(level);
-		print (currentLevel.getLevel());
 		BoardSetup (currentLevel.getSize());
 		DrawBoard (currentLevel.getGrid());
 	}

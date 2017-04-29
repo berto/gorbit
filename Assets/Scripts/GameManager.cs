@@ -52,16 +52,14 @@ public class GameManager: MonoBehaviour {
 	}
 
 	public void NextLevel() {
-		level++;
-		levelText.text = "Level: " + level.ToString();
-//		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+		instance.level++;
+		instance.levelText.text = "Level: " + level.ToString();
 		GameManager.instance.InitGame ();
 	}
 
 	public void PreviousLevel() {
-		level--;
-		levelText.text = "Level: " + level.ToString();
-		//		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+		instance.level--;
+		instance.levelText.text = "Level: " + level.ToString();
 		GameManager.instance.InitGame ();
 	}
 

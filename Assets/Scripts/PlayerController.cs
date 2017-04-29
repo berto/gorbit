@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float speed;
+	private bool stopped;
+	private bool isColliding;
 	private Rigidbody2D rb;
 
 	void Start () {
@@ -31,13 +33,24 @@ public class PlayerController : MonoBehaviour {
 	void Restart() {
 		GameManager.instance.Reset ();
 	}
+
+	void Stop() {
+		rb.velocity = Vector3.zero;
+		stopped = true;
+	}
 		
 	void OnTriggerEnter2D(Collider2D other) {
+		if(isColliding) return;
+		isColliding = true;
 		if (other.gameObject.CompareTag ("PickUp")) {
 			other.gameObject.SetActive (false);
 			NextLevel ();
 		} else if (other.gameObject.CompareTag ("Environment")) {
 			PreviousLevel ();
 		}
+	}
+
+	void Update() {
+		isColliding = false;
 	}
 }
