@@ -16,6 +16,9 @@ public class BoardManager : MonoBehaviour {
 	private float gridY;
 	private float boardX;
 	private float boardY;
+	private List<GameObject> items = new List<GameObject>();
+	private List<GameObject> players = new List<GameObject>();
+	private List<Vector3> playerPositions = new List<Vector3>();
 
 	private class Board {
 		public int columns = 7;
@@ -33,8 +36,8 @@ public class BoardManager : MonoBehaviour {
 	}
 
 	void BoardSetup (string size) {
+		items.Add(Instantiate (background));
 		board = new Board (size);
-		Instantiate (background);
 		boardX = background.GetComponent<Renderer> ().bounds.size.x;
 		boardY = background.GetComponent<Renderer> ().bounds.size.y;
 		gridX = boardX / board.columns;
@@ -53,7 +56,13 @@ public class BoardManager : MonoBehaviour {
 					float positionY = y * gridY - (boardY / 2) + gridY / 2;
 					float positionX = x * gridX - (boardX / 2) + gridX / 2;
 					Vector3 position = new Vector3 (positionX, positionY, 0f);
-					Instantiate (toInstantiate, position, Quaternion.identity);
+					GameObject newItem = Instantiate (toInstantiate, position, Quaternion.identity);
+					if (newItem.tag == "Player") {
+						players.Add (newItem);
+						playerPositions.Add (position);
+					} else {
+						items.Add (newItem);
+					}
 				}
 			}
 		}
@@ -74,7 +83,36 @@ public class BoardManager : MonoBehaviour {
 		return toInstantiate;
 	}
 
+	void clearBoard() {
+		for (int i = 0; i < items.Count; i++) {
+			Destroy(items[i]);
+		}
+		for (int i = 0; i < players.Count; i++) {
+			Destroy(players[i]);
+		}
+		players = new List<GameObject> ();
+		playerPositions = new List<Vector3> ();
+		items = new List<GameObject>();
+	}
+
+	public void Reset() {
+		redrawPlayers ();
+	}
+
+	void redrawPlayers() {
+		for (int i = 0; i < players.Count; i++) {
+			Destroy(players[i]);
+		}
+		players = new List<GameObject>();
+		for (int i = 0; i < playerPositions.Count; i++) {
+			players.Add(Instantiate (player, playerPositions[i], Quaternion.identity));
+		}
+	}
+
 	public void SetupScene (int level) {
+		if (items.Count > 0) {
+			clearBoard ();
+		}
 		currentLevel = new Level(level);
 		BoardSetup (currentLevel.getSize());
 		DrawBoard (currentLevel.getGrid());

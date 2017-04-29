@@ -19,11 +19,14 @@ public class PlayerController : MonoBehaviour {
 
 		rb.AddForce (movement * speed);
 	}
+
+	void Restart() {
+		GameManager.instance.nextLevel ();
+	}
 		
-	void OnTriggerEnter2D(Collider2D other) 
-	{
-		if (other.gameObject.CompareTag("PickUp"))
-		{
+	void OnTriggerEnter2D(Collider2D other) {
+		if (other.gameObject.CompareTag("PickUp")) {
+			Restart ();
 			other.gameObject.SetActive(false);
 		}
 	}
