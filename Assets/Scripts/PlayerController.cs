@@ -5,9 +5,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float speed;
-	private bool stopped;
 	private bool isColliding;
 	private Rigidbody2D rb;
+	public AudioClip damageSound_0;
+	public AudioClip damageSound_1;
+	public AudioClip winSound;
 
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
@@ -36,16 +38,17 @@ public class PlayerController : MonoBehaviour {
 
 	void Stop() {
 		rb.velocity = Vector3.zero;
-		stopped = true;
 	}
 		
 	void OnTriggerEnter2D(Collider2D other) {
 		if(isColliding) return;
 		isColliding = true;
 		if (other.gameObject.CompareTag ("PickUp")) {
+			SoundManager.instance.PlaySingle (winSound);
 			other.gameObject.SetActive (false);
 			NextLevel ();
 		} else if (other.gameObject.CompareTag ("Environment")) {
+			SoundManager.instance.RandomizeSfx(damageSound_0, damageSound_1);
 			PreviousLevel ();
 		}
 	}
