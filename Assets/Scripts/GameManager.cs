@@ -67,10 +67,22 @@ public class GameManager: MonoBehaviour {
 		Event e = Event.current;
 		if (e.isKey && e.keyCode == UnityEngine.KeyCode.R)
 			Reset ();
+		else if (e.isKey && e.keyCode == UnityEngine.KeyCode.M &&  e.type == EventType.KeyUp)
+			ToggleMusic ();
 	}
 
 	public void Reset() {
 		boardscript.Reset ();
+	}
+
+	public void ToggleMusic() {
+		if (SoundManager.instance.musicSource.isPlaying) {
+			SoundManager.instance.musicSource.Pause ();
+			SoundManager.instance.efxSource.mute = true;
+		} else {
+			SoundManager.instance.musicSource.Play ();
+			SoundManager.instance.efxSource.mute = false;
+		}
 	}
 
 	void displayRestartText(float playerX, float playerY, float cameraX, float cameraY) {

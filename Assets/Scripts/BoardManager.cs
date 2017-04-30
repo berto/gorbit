@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class BoardManager : MonoBehaviour {
@@ -19,6 +20,7 @@ public class BoardManager : MonoBehaviour {
 	private List<GameObject> items = new List<GameObject>();
 	private List<GameObject> players = new List<GameObject>();
 	private List<Vector3> playerPositions = new List<Vector3>();
+	private bool showMusicHint = true;
 
 	private class Board {
 		public int columns = 7;
@@ -118,5 +120,8 @@ public class BoardManager : MonoBehaviour {
 		currentLevel = new Level(level);
 		BoardSetup (currentLevel.getSize());
 		DrawBoard (currentLevel.getGrid());
+		if (currentLevel.getLevel () > 0 && showMusicHint) {
+			GameObject.Find("MusicText").GetComponent<Text>().enabled = false;
+		}
 	}
 }
