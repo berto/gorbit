@@ -10,10 +10,13 @@ public class GameManager: MonoBehaviour {
 	public static GameManager instance = null;
 	private Text levelText;
 	private Text restartText;
+	private Text winText;
+	private Text resetText;
 	public BoardManager boardscript;
 	public int level = 0;
 	private float maxX = 100;
 	private float maxY = 100;
+	private bool gameOver = false;
 
 	void Awake () {
 		//Check if instance already exists
@@ -36,9 +39,22 @@ public class GameManager: MonoBehaviour {
 	void InitGame() {
 		levelText = GameObject.Find("LevelText").GetComponent<Text>();
 		restartText = GameObject.Find("RestartText").GetComponent<Text>();
-		restartText.enabled = false;
+		winText = GameObject.Find("WinText").GetComponent<Text>();
+		resetText = GameObject.Find("ResetText").GetComponent<Text>();
 		levelText.text = "Level: " + level.ToString();
+		hideText ();
 		boardscript.SetupScene (level);
+	}
+
+	void hideText() {
+		restartText.enabled = false;
+		resetText.enabled = false;
+		winText.enabled = false;
+	}
+
+	void displayGameOverText() {
+		resetText.enabled = true;
+		winText.enabled = true;
 	}
 
 	void Update () {
@@ -54,25 +70,41 @@ public class GameManager: MonoBehaviour {
 	public void NextLevel() {
 		instance.level++;
 		instance.levelText.text = "Level: " + level.ToString();
-		GameManager.instance.InitGame ();
+		instance.InitGame ();
 	}
 
 	public void PreviousLevel() {
 		instance.level--;
 		instance.levelText.text = "Level: " + level.ToString();
-		GameManager.instance.InitGame ();
+		instance.InitGame ();
 	}
 
 	void OnGUI() {
 		Event e = Event.current;
 		if (e.isKey && e.keyCode == UnityEngine.KeyCode.R)
 			Reset ();
-		else if (e.isKey && e.keyCode == UnityEngine.KeyCode.M &&  e.type == EventType.KeyUp)
+		else if (e.isKey && e.keyCode == UnityEngine.KeyCode.M && e.type == EventType.KeyUp)
 			ToggleMusic ();
+		else if (e.isKey && e.keyCode == UnityEngine.KeyCode.Space && e.type == EventType.KeyUp && gameOver)
+			RestartGame ();
 	}
 
 	public void Reset() {
 		boardscript.Reset ();
+	}
+
+	public void RestartGame() {
+		gameOver = false;
+		instance.level = 0;
+		SoundManager.instance.PlayMusic ();
+		instance.InitGame ();
+	}
+
+	public void EndGame() {
+		gameOver = true;
+		displayGameOverText ();
+		SoundManager.instance.PlayEnding ();
+		boardscript.DisplayWinScreen ();
 	}
 
 	public void ToggleMusic() {

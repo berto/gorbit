@@ -10,7 +10,10 @@ public class BoardManager : MonoBehaviour {
 	public GameObject[] asteroids;
 	public GameObject background;
 	public GameObject player;
+	public GameObject princess;
 	public GameObject pickup;
+	public GameObject winBanner;
+	private GameObject backgroundInstance;
 	private Level currentLevel;
 	private Board board;
 	private float gridX;
@@ -38,7 +41,9 @@ public class BoardManager : MonoBehaviour {
 	}
 
 	void BoardSetup (string size) {
-		items.Add(Instantiate (background));
+		if (backgroundInstance == null) {
+			backgroundInstance = Instantiate (background);
+		}
 		board = new Board (size);
 		boardX = background.GetComponent<Renderer> ().bounds.size.x;
 		boardY = background.GetComponent<Renderer> ().bounds.size.y;
@@ -82,6 +87,10 @@ public class BoardManager : MonoBehaviour {
 			toInstantiate = pickup;
 			defaultX = 2;
 			defaultY = 2;
+		} else if (item == 4) {
+			toInstantiate = princess;
+			defaultX = 1.4f;
+			defaultY = 1.2f;
 		}
 		toInstantiate.transform.localScale = new Vector3 (defaultX, defaultY, 0f);
 		return toInstantiate;
@@ -97,6 +106,12 @@ public class BoardManager : MonoBehaviour {
 		players = new List<GameObject> ();
 		playerPositions = new List<Vector3> ();
 		items = new List<GameObject>();
+	}
+
+	public void DisplayWinScreen() {
+		clearBoard ();
+		GameObject.Find ("LevelText").GetComponent<Text> ().enabled = false;
+		items.Add (Instantiate (winBanner, new Vector3 (0, 0, 0f), Quaternion.identity));
 	}
 
 	public void Reset() {

@@ -8,12 +8,11 @@ public class Level {
 	private string size;
 	private int[][] grid;
 	private string[] sizes;
-	private int[][][] levels = new int[3][][];
+	private int[][][] levels;
 
 	public Level (int _level) {
 		level = _level;
-		initializeLevels ();
-		sizes = new string[] { "s", "m", "m" };
+		sizes = initializeLevels (); 
 		grid = levels [level];
 		size = sizes [level];
 	}
@@ -30,35 +29,65 @@ public class Level {
 		return level;
 	}
 
-	private void initializeLevels() {
-		// Level 0
-		int[][] level_0 = new int[4][];
-		level_0[0] = new int[]{ 0, 0, 0, 0, 0, 0, 0 };
-		level_0[1] = new int[]{ 0, 0, 0, 0, 2, 0, 0 };
-		level_0[2] = new int[]{ 0, 1, 0, 0, 0, 0, 0 };
-		level_0[3] = new int[]{ 0, 0, 0, 0, 0, 0, 0 };
+	private string[] initializeLevels() {
+		// Define number of levels
+		levels = new int[4][][];
+
+		int[][] level_0 = generateLevel0();
+		int[][] level_1 = generateLevel1();
+		int[][] level_2 = generateLevel2();
+		int[][] level_3 = generateLevel3();
+
 		levels.SetValue (level_0, 0);
-		// Level 1
-		int[][] level_1 = new int[8][];
-		level_1[0] = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0 };
-		level_1[1] = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		level_1[2] = new int[]{ 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0 };
-		level_1[3] = new int[]{ 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		level_1[4] = new int[]{ 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0 };
-		level_1[5] = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		level_1[6] = new int[]{ 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0 };
-		level_1[7] = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0 };
 		levels.SetValue (level_1, 1);
-		// Level 2
-		int[][] level_2 = new int[8][];
-		level_2[0] = new int[]{ 0, 0, 0, 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 0 };
-		level_2[1] = new int[]{ 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 3, 0, 1, 0 };
-		level_2[2] = new int[]{ 0, 3, 2, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		level_2[3] = new int[]{ 0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0 };
-		level_2[4] = new int[]{ 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		level_2[5] = new int[]{ 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0 };
-		level_2[6] = new int[]{ 3, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 };
-		level_2[7] = new int[]{ 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		levels.SetValue (level_2, 2);
+		levels.SetValue (level_3, 3);
+
+		// Define sizes
+		return new string[] { "s", "m", "m", "s" };
+	}
+
+	private int[][] generateLevel0() {
+		int[][] level = new int[4][];
+		level[0] = new int[]{ 0, 0, 0, 0, 0, 0, 0 };
+		level[1] = new int[]{ 0, 0, 0, 0, 2, 0, 0 };
+		level[2] = new int[]{ 0, 1, 0, 0, 0, 0, 0 };
+		level[3] = new int[]{ 0, 0, 0, 0, 0, 0, 0 };
+		return level;
+	}
+
+	private int[][] generateLevel1() {
+		int[][] level = new int[8][];
+		level[0] = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0 };
+		level[1] = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		level[2] = new int[]{ 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0 };
+		level[3] = new int[]{ 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		level[4] = new int[]{ 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0 };
+		level[5] = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		level[6] = new int[]{ 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0 };
+		level[7] = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0 };
+		return level;
+	}
+
+	private int[][] generateLevel2() {
+		int[][] level = new int[8][];
+		level[0] = new int[]{ 0, 0, 0, 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 0 };
+		level[1] = new int[]{ 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 3, 0, 1, 0 };
+		level[2] = new int[]{ 0, 3, 2, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		level[3] = new int[]{ 0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0 };
+		level[4] = new int[]{ 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		level[5] = new int[]{ 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0 };
+		level[6] = new int[]{ 3, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 };
+		level[7] = new int[]{ 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		return level;
+	}
+
+	private int[][] generateLevel3() {
+		int[][] level = new int[4][];
+		level[0] = new int[]{ 0, 0, 3, 0, 0, 0, 0 };
+		level[1] = new int[]{ 0, 0, 0, 0, 0, 4, 0 };
+		level[2] = new int[]{ 0, 1, 0, 0, 0, 0, 0 };
+		level[3] = new int[]{ 0, 0, 0, 0, 3, 0, 3 };
+		return level;
 	}
 }

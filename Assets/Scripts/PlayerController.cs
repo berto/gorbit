@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour {
 		GameManager.instance.PreviousLevel ();
 	}
 
+	void EndGame() {
+		GameManager.instance.EndGame ();
+	}
+
 	void Restart() {
 		GameManager.instance.Reset ();
 	}
@@ -50,6 +54,9 @@ public class PlayerController : MonoBehaviour {
 		} else if (other.gameObject.CompareTag ("Environment")) {
 			SoundManager.instance.RandomizeSfx(damageSound_0, damageSound_1);
 			PreviousLevel ();
+		} else if (other.gameObject.CompareTag ("Win")) {
+			SoundManager.instance.PlayEnding();
+			EndGame ();
 		}
 	}
 

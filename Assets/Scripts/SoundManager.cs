@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
 	
-	public AudioSource efxSource;					//Drag a reference to the audio source which will play the sound effects.
-	public AudioSource musicSource;					//Drag a reference to the audio source which will play the music.
-	public static SoundManager instance = null;		//Allows other scripts to call functions from SoundManager.				
-	public float lowPitchRange = .95f;				//The lowest a sound effect will be randomly pitched.
-	public float highPitchRange = 1.05f;			//The highest a sound effect will be randomly pitched.
+	public AudioSource efxSource;					
+	public AudioSource musicSource;					
+	public AudioClip endSongSource;		
+	public AudioClip ambientSource;				
+	public static SoundManager instance = null;		
+	public float lowPitchRange = .95f;				
+	public float highPitchRange = 1.05f;			
 
 	void Awake () {
 		//Check if there is already an instance of SoundManager
@@ -24,6 +26,16 @@ public class SoundManager : MonoBehaviour {
 	public void PlaySingle(AudioClip clip) {
 		efxSource.clip = clip;
 		efxSource.Play ();
+	}
+
+	public void PlayEnding() {
+		musicSource.clip = endSongSource;
+		musicSource.Play ();
+	}
+
+	public void PlayMusic() {
+		musicSource.clip = ambientSource;
+		musicSource.Play ();
 	}
 
 	//RandomizeSfx chooses randomly between various audio clips and slightly changes their pitch.
