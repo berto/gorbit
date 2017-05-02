@@ -26,7 +26,7 @@ public class BoardManager : MonoBehaviour {
 	private bool showMusicHint = true;
 
 	private class Board {
-		public int columns = 7;
+		public int columns = 5;
 		public int rows = 4;
 		private string[] sizes = new string[4] {"s", "m", "l", "xl"};
 

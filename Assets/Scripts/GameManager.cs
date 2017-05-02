@@ -97,6 +97,7 @@ public class GameManager: MonoBehaviour {
 		gameOver = false;
 		instance.level = 0;
 		SoundManager.instance.PlayMusic ();
+		instance.levelText.enabled = true;
 		instance.InitGame ();
 	}
 
