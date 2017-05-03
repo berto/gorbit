@@ -20,6 +20,7 @@ public class BoardManager : MonoBehaviour {
 	private float gridY;
 	private float boardX;
 	private float boardY;
+	private float defaultSize = 1.2f;
 	private List<GameObject> items = new List<GameObject>();
 	private List<GameObject> players = new List<GameObject>();
 	private List<Vector3> playerPositions = new List<Vector3>();
@@ -76,13 +77,11 @@ public class BoardManager : MonoBehaviour {
 	}
 
 	private GameObject selectGameObject(int item) {
-		float defaultX = 1;
-		float defaultY = 1;
+		float defaultX = defaultSize;
+		float defaultY = defaultSize;
 		GameObject toInstantiate = asteroids [Random.Range (0, 4)];
 		if (item == 1) {
 			toInstantiate = player;
-			defaultX = 1.2f;
-			defaultY = 1.2f;
 		} else if (item == 2) {
 			toInstantiate = pickup;
 			defaultX = 2;
@@ -90,7 +89,6 @@ public class BoardManager : MonoBehaviour {
 		} else if (item == 4) {
 			toInstantiate = princess;
 			defaultX = 1.4f;
-			defaultY = 1.2f;
 		}
 		toInstantiate.transform.localScale = new Vector3 (defaultX, defaultY, 0f);
 		return toInstantiate;
