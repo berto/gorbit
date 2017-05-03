@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class ReyalpController : MonoBehaviour {
 
 	public float speed;
 	private bool isColliding;
@@ -19,7 +19,8 @@ public class PlayerController : MonoBehaviour {
 	void FixedUpdate () {
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
-		Vector2 movement = new Vector2 (moveHorizontal/slowFactor, moveVertical/slowFactor);
+
+		Vector2 movement = new Vector2 (-moveHorizontal/slowFactor, -moveVertical/slowFactor);
 
 		rb.AddForce (movement * speed);
 	}

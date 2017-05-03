@@ -10,6 +10,7 @@ public class BoardManager : MonoBehaviour {
 	public GameObject[] asteroids;
 	public GameObject background;
 	public GameObject player;
+	public GameObject upsidedownPlayer;
 	public GameObject princess;
 	public GameObject pickup;
 	public GameObject winBanner;
@@ -24,6 +25,8 @@ public class BoardManager : MonoBehaviour {
 	private List<GameObject> items = new List<GameObject>();
 	private List<GameObject> players = new List<GameObject>();
 	private List<Vector3> playerPositions = new List<Vector3>();
+	private List<GameObject> sreyalp = new List<GameObject>();
+	private List<Vector3> reyalpPositions = new List<Vector3>();
 	private bool showMusicHint = true;
 
 	private class Board {
@@ -68,6 +71,9 @@ public class BoardManager : MonoBehaviour {
 					if (newItem.tag == "Player") {
 						players.Add (newItem);
 						playerPositions.Add (position);
+					} else if (newItem.tag == "Reyalp") {
+						sreyalp.Add (newItem);
+						reyalpPositions.Add (position);
 					} else {
 						items.Add (newItem);
 					}
@@ -89,6 +95,8 @@ public class BoardManager : MonoBehaviour {
 		} else if (item == 4) {
 			toInstantiate = princess;
 			defaultX = 1.4f;
+		} else if (item == 5) {
+			toInstantiate = upsidedownPlayer;
 		}
 		toInstantiate.transform.localScale = new Vector3 (defaultX, defaultY, 0f);
 		return toInstantiate;
@@ -101,6 +109,11 @@ public class BoardManager : MonoBehaviour {
 		for (int i = 0; i < players.Count; i++) {
 			Destroy(players[i]);
 		}
+		for (int i = 0; i < sreyalp.Count; i++) {
+			Destroy(sreyalp[i]);
+		}
+		sreyalp = new List<GameObject> ();
+		reyalpPositions = new List<Vector3> ();
 		players = new List<GameObject> ();
 		playerPositions = new List<Vector3> ();
 		items = new List<GameObject>();
@@ -123,6 +136,13 @@ public class BoardManager : MonoBehaviour {
 		players = new List<GameObject>();
 		for (int i = 0; i < playerPositions.Count; i++) {
 			players.Add(Instantiate (player, playerPositions[i], Quaternion.identity));
+		}
+		for (int i = 0; i < sreyalp.Count; i++) {
+			Destroy(sreyalp[i]);
+		}
+		sreyalp = new List<GameObject>();
+		for (int i = 0; i < reyalpPositions.Count; i++) {
+			sreyalp.Add(Instantiate (upsidedownPlayer, reyalpPositions[i], Quaternion.identity));
 		}
 	}
 
